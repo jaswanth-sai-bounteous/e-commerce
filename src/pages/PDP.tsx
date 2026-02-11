@@ -3,9 +3,13 @@ import { useParams } from "react-router-dom"
 import { productService } from "../services/product.service"
 import type { Product } from "../types/product"
 import Button from "../components/ui/Button"
+import { useCart } from "@/context/CartContext"
+
 
 export default function PDP() {
   const { id } = useParams<{ id: string }>()
+  const { addToCart } = useCart()
+
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -19,8 +23,11 @@ export default function PDP() {
     })
   }, [id])
 
-  if (loading) return <p className="container mx-auto px-4 py-12">Loading...</p>
-  if (!product) return <p className="container mx-auto px-4 py-12">Product not found.</p>
+  if (loading)
+    return <p className="container mx-auto px-4 py-12">Loading...</p>
+
+  if (!product)
+    return <p className="container mx-auto px-4 py-12">Product not found.</p>
 
   return (
     <main className="container mx-auto px-4 py-12">
@@ -33,11 +40,19 @@ export default function PDP() {
         <div>
           <h1 className="text-3xl font-bold">{product.title}</h1>
           <p className="mt-4 text-gray-600">{product.description}</p>
-          <p className="mt-6 text-2xl font-semibold">${product.price.toFixed(2)}</p>
+          <p className="mt-6 text-2xl font-semibold">
+            ${product.price.toFixed(2)}
+          </p>
 
-          <Button className="mt-8 px-6 py-3">Add to Cart</Button>
+          <Button
+            className="mt-8 px-6 py-3"
+            onClick={() => addToCart(product)}
+          >
+            Add to Cart
+          </Button>
         </div>
       </div>
     </main>
   )
 }
+
