@@ -2,11 +2,13 @@ import { type FC } from "react"
 import { Link } from "react-router-dom"
 import type { Product } from "../../types/product"
 
+
 interface ProductCardProps {
   product: Product
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+
   return (
     <Link
       to={`/products/${product.id}`}
